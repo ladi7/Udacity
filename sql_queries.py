@@ -20,22 +20,22 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 staging_events_table_create= ("""CREATE TABLE if not exists staging_events (
 artist VARCHAR,
 auth VARCHAR,
-first_name VARCHAR,
+firstname VARCHAR,
 gender VARCHAR,
 itemInSession int,
-last_name VARCHAR,
+lastname VARCHAR,
 length FLOAT,
 level VARCHAR,
 location VARCHAR,
 method VARCHAR,
 page VARCHAR,
 registration NUMERIC,
-session_id INT,
+sessionId INT,
 song VARCHAR,
 status VARCHAR,
 ts varchar,
-user_agent VARCHAR,
-user_id INT
+userAgent VARCHAR,
+userId INT
 )
 """)
 
@@ -47,14 +47,14 @@ artist_longitude FLOAT,
 artist_location VARCHAR,
 artist_name VARCHAR,
 song_id VARCHAR,
-song_title VARCHAR,
+title VARCHAR,
 duration FLOAT,
 year VARCHAR
 )
 """)
 
 songplay_table_create = ("""CREATE TABLE if not exists songplay(
-songplay_id INT PRIMARY KEY NOT NULL,
+songplay_id INT PRIMARY KEY NOT,
 start_time varchar,
 user_id INT,
 level VARCHAR,
@@ -121,15 +121,15 @@ JSON 'auto' region 'us-west-2'
 songplay_table_insert = ("""INSERT INTO songplay (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
 SELECT 
 se.ts,
-se.user_id,
+se.userId,
 se.level,
 ss.song_id,
 ss.artist_id,
-se.session_id,
+se.sessionId,
 ss.artist_location,
-se.user_agent
+se.userAgent
 FROM staging_events se
-JOIN staging_songs ss ON (se.song = ss.song_title and se.artist = ss.artist_name and se.length = ss.duration)
+JOIN staging_songs ss ON (se.song = ss.title and se.artist = ss.artist_name and se.length = ss.duration)
 WHERE se.page = 'NextSong'
 """)
 
@@ -176,3 +176,4 @@ create_table_queries = [staging_events_table_create, staging_songs_table_create,
 drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
 copy_table_queries = [staging_events_copy, staging_songs_copy]
 insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
+
