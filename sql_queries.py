@@ -40,6 +40,7 @@ user_id INT
 """)
 
 staging_songs_table_create = ("""CREATE TABLE if not exists staging_songs(
+num_songs int,
 artist_id VARCHAR PRIMARY KEY NOT NULL,
 artist_latitude FLOAT,
 artist_longitude FLOAT,
@@ -128,7 +129,7 @@ se.session_id,
 ss.artist_location,
 se.user_agent
 FROM staging_events se
-JOIN staging_songs ss ON (se.song = ss.song_title)
+JOIN staging_songs ss ON (se.song = ss.song_title and se.artist = ss.artist_name and se.length = ss.duration)
 WHERE se.page = 'NextSong'
 """)
 
